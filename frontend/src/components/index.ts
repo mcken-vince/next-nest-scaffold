@@ -5,7 +5,6 @@ export * from './Inputs/Input';
 export * from './Inputs/InputErrorMessage';
 export * from './SectionTitle';
 export * from './SectionHeader';
-export * from './Progress';
 
 // Menus
 export * from './DropdownMenu';

@@ -63,7 +63,7 @@ export const SignUpForm = () => {
     router.push('/login');
   };
 
-  const headerText = 'Welcome to Budget';
+  const headerText = 'Welcome to App';
   const subText =
     'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.';
   return (

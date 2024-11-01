@@ -37,7 +37,7 @@ export const LoginForm = () => {
     console.log({ response });
   };
 
-  const headerText = 'Welcome to Budget';
+  const headerText = 'Welcome to App';
   const subText =
     'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.';
   return (
