@@ -1,8 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { databaseConfig } from './database.config';
-import {
-  UserEntity,
-} from '@entities';
+import { NotificationEntity, UserEntity } from '@entities';
 
 export const databaseProviders = [
   {
@@ -23,9 +21,7 @@ export const databaseProviders = [
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
-      sequelize.addModels([
-        UserEntity,
-      ]);
+      sequelize.addModels([UserEntity, NotificationEntity]);
       // await sequelize.sync({ force: true });
       return sequelize;
     },
