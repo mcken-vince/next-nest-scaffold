@@ -3,6 +3,8 @@
 import { ReactNode } from 'react';
 import AuthContext from './AuthContext';
 import { PopupProvider } from './PopupProvider';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@helpers/clients';
 
 type ProvidersProps = {
   children: ReactNode;
@@ -11,7 +13,9 @@ type ProvidersProps = {
 export default function Providers({ children }: ProvidersProps) {
   return (
     <AuthContext>
-      <PopupProvider>{children}</PopupProvider>
+      <QueryClientProvider client={queryClient}>
+        <PopupProvider>{children}</PopupProvider>
+      </QueryClientProvider>
     </AuthContext>
   );
 }
