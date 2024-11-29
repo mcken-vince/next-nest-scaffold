@@ -22,4 +22,12 @@ export class UserSettingsService extends BaseService<UserSettingsEntity> {
     });
     return settings;
   }
+
+  async updateByUserId(
+    idUser: number,
+    input: UserSettingsDto
+  ): Promise<UserSettingsEntity> {
+    const settings = await this.findByUserId(idUser);
+    return settings.update(input);
+  }
 }

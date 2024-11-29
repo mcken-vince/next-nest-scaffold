@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { UserSettingsService } from './user-settings.service';
 import { BaseController } from '@base/base.controller';
 import { UserSettingsEntity } from '@entities';
+import { UserSettingsDto } from '@dto';
 
 @Controller('user-settings')
 export class UserSettingsController extends BaseController<UserSettingsEntity> {
@@ -22,5 +23,13 @@ export class UserSettingsController extends BaseController<UserSettingsEntity> {
   @Get(':id')
   async findByUserId(@Param('id') id: number): Promise<UserSettingsEntity> {
     return this._service.findByUserId(id);
+  }
+
+  @Patch(':id')
+  async updateByUserId(
+    @Param('id') id: number,
+    @Body() input: UserSettingsDto
+  ): Promise<UserSettingsEntity> {
+    return this._service.updateByUserId(id, input);
   }
 }
