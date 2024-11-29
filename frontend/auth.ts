@@ -99,6 +99,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           firstName: token?.user?.firstName,
           lastName: token?.user?.lastName,
           email: token?.user?.email,
+          id: token?.user?.id,
         },
       };
     },
