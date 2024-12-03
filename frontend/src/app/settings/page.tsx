@@ -1,6 +1,7 @@
 'use client';
 
-import { Divider } from '@components/Dividers/Divider';
+import { Card } from '@components/Card';
+
 import { SectionTitle } from '@components/SectionTitle';
 import { apiFetch } from '@helpers/clients';
 import { useQuery } from '@tanstack/react-query';
@@ -15,9 +16,22 @@ export default function SettingsPage() {
     },
   });
   return (
-    <div className="flex flex-col mx-auto max-w-screen-xl">
+    <div className="flex flex-col mx-auto max-w-screen-xl gap-2">
       <SectionTitle>Settings</SectionTitle>
-      {JSON.stringify(data)}
+      <Card>
+        <div className="flex gap-2">
+          <h4 className="">App Notifications:</h4>{' '}
+          {data?.allowAppNotifications ? 'On' : 'Off'}
+        </div>
+        <div className="flex gap-2">
+          <h4 className="">Email Notifications:</h4>{' '}
+          {data?.allowEmailNotifications ? 'On' : 'Off'}
+        </div>
+        <div className="flex gap-2">
+          <h4 className="">Two Factor Authentication:</h4>{' '}
+          {data?.use2FA ? 'On' : 'Off'}
+        </div>
+      </Card>
     </div>
   );
 }
