@@ -6,6 +6,7 @@ export * from './Inputs/InputErrorMessage';
 export * from './SectionTitle';
 export * from './SectionHeader';
 export * from './Dividers/Divider';
+export * from './Toggle';
 
 // Menus
 export * from './DropdownMenu';
