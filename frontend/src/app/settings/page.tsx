@@ -3,9 +3,11 @@
 import { Card } from '@components/Card';
 
 import { SectionTitle } from '@components/SectionTitle';
+import { Toggle } from '@components/Toggle';
 import { apiFetch } from '@helpers/clients';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 export default function SettingsPage() {
   const { data: session } = useSession();
@@ -15,21 +17,37 @@ export default function SettingsPage() {
       return apiFetch(`/user-settings/${session?.user?.id}`);
     },
   });
+  const [allowAppNotifications, setAllowAppNotifications] = useState(
+    data?.allowAppNotifications
+  );
+  const [allowEmailNotifications, setAllowEmailNotifications] = useState(
+    data?.allowAppNotifications
+  );
+  const [use2FA, setUse2FA] = useState(data?.use2FA);
   return (
     <div className="flex flex-col mx-auto max-w-screen-xl gap-2">
       <SectionTitle>Settings</SectionTitle>
       <Card>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <h4 className="">App Notifications:</h4>{' '}
-          {data?.allowAppNotifications ? 'On' : 'Off'}
+          <Toggle
+            checked={allowAppNotifications}
+            onChange={(e, checked) => setAllowAppNotifications(checked)}
+          />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <h4 className="">Email Notifications:</h4>{' '}
-          {data?.allowEmailNotifications ? 'On' : 'Off'}
+          <Toggle
+            checked={allowEmailNotifications}
+            onChange={(e, checked) => setAllowEmailNotifications(checked)}
+          />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <h4 className="">Two Factor Authentication:</h4>{' '}
-          {data?.use2FA ? 'On' : 'Off'}
+          <Toggle
+            checked={use2FA}
+            onChange={(e, checked) => setUse2FA(checked)}
+          />
         </div>
       </Card>
     </div>
