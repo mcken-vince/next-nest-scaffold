@@ -24,6 +24,16 @@ export default function SettingsPage() {
     data?.allowAppNotifications
   );
   const [use2FA, setUse2FA] = useState(data?.use2FA);
+
+  const updateAppNotifications = async (value: boolean) => {
+    await apiFetch(`/user-settings/${session?.user?.id}`, {
+      method: 'PATCH',
+      data: {
+        allowAppNotifications: value,
+      },
+    });
+    setAllowAppNotifications(value);
+  };
   return (
     <div className="flex flex-col mx-auto max-w-screen-xl gap-2">
       <SectionTitle>Settings</SectionTitle>
@@ -32,7 +42,7 @@ export default function SettingsPage() {
           <h4 className="">App Notifications:</h4>{' '}
           <Toggle
             checked={allowAppNotifications}
-            onChange={(e, checked) => setAllowAppNotifications(checked)}
+            onChange={(e, checked) => updateAppNotifications(checked)}
           />
         </div>
         <div className="flex gap-2 items-center">
@@ -43,7 +53,7 @@ export default function SettingsPage() {
           />
         </div>
         <div className="flex gap-2 items-center">
-          <h4 className="">Two Factor Authentication:</h4>{' '}
+          <h4 className="">2FA:</h4>{' '}
           <Toggle
             checked={use2FA}
             onChange={(e, checked) => setUse2FA(checked)}
