@@ -25,14 +25,27 @@ export default function SettingsPage() {
   );
   const [use2FA, setUse2FA] = useState(data?.use2FA);
 
-  const updateAppNotifications = async (value: boolean) => {
-    await apiFetch(`/user-settings/${session?.user?.id}`, {
+  const updateUserSettings = async (input: {
+    allowAppNotifications?: boolean;
+    allowEmailNotifications?: boolean;
+    use2FA?: boolean;
+  }) => {
+    const response = await apiFetch(`/user-settings/${session?.user?.id}`, {
       method: 'PATCH',
-      data: {
-        allowAppNotifications: value,
-      },
+      data: input,
     });
-    setAllowAppNotifications(value);
+    console.log({ response });
+    Object.keys(input).forEach((key) => {
+      if (key === 'allowAppNotifications') {
+        setAllowAppNotifications(input[key]);
+      }
+      if (key === 'allowEmailNotifications') {
+        setAllowEmailNotifications(input[key]);
+      }
+      if (key === 'use2FA') {
+        setUse2FA(input[key]);
+      }
+    });
   };
   return (
     <div className="flex flex-col mx-auto max-w-screen-xl gap-2">
@@ -42,21 +55,25 @@ export default function SettingsPage() {
           <h4 className="">App Notifications:</h4>{' '}
           <Toggle
             checked={allowAppNotifications}
-            onChange={(e, checked) => updateAppNotifications(checked)}
+            onChange={(e, checked) =>
+              updateUserSettings({ allowAppNotifications: checked })
+            }
           />
         </div>
         <div className="flex gap-2 items-center">
           <h4 className="">Email Notifications:</h4>{' '}
           <Toggle
             checked={allowEmailNotifications}
-            onChange={(e, checked) => setAllowEmailNotifications(checked)}
+            onChange={(e, checked) =>
+              updateUserSettings({ allowEmailNotifications: checked })
+            }
           />
         </div>
         <div className="flex gap-2 items-center">
           <h4 className="">2FA:</h4>{' '}
           <Toggle
             checked={use2FA}
-            onChange={(e, checked) => setUse2FA(checked)}
+            onChange={(e, checked) => updateUserSettings({ use2FA: checked })}
           />
         </div>
       </Card>
