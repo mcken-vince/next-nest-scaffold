@@ -38,7 +38,7 @@ export const TopNav = () => {
           </nav>
 
           <div className="flex items-center gap-4">
-            <div className="sm:flex sm:gap-4">
+            <div className="flex gap-4">
               {authenticated ? (
                 <>
                   <ul className="flex items-center gap-6 text-sm">
