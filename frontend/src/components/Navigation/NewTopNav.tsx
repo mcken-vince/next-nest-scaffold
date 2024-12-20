@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export const NewTopNav = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 overflow-x-hidden max-h-15">
@@ -14,42 +14,43 @@ export const NewTopNav = () => {
             App
           </span>
         </a>
-        <div className="flex flex-col items-right md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse max-h-15">
-          <button
-            type="button"
-            className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 max-w-8 ml-auto"
-            id="user-menu-button"
-            aria-expanded={userMenuOpen}
-            data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom"
-            onClick={() => setUserMenuOpen((prev) => !prev)}
-          >
-            <span className="sr-only">Open user menu</span>
-            <Image
-              width={8}
-              height={8}
-              className="w-8 h-8 rounded-full"
-              src="/images/default_avatar.png"
-              alt="user photo"
-            />
-          </button>
-          {/* <!-- Dropdown menu --> */}
-          <div
-            className={`z-50 ${
-              userMenuOpen ? '' : 'hidden'
-            } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute right-4 top-14`}
-            id="user-dropdown"
-          >
-            <div className="px-4 py-3">
-              <span className="block text-sm text-gray-900 dark:text-white">
-                {session?.user?.firstName} {session?.user?.lastName}
-              </span>
-              <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                {session?.user?.email}
-              </span>
-            </div>
-            <ul className="py-2" aria-labelledby="user-menu-button">
-              {/* <li>
+        {status === 'authenticated' ? (
+          <div className="flex flex-col items-right md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse max-h-15">
+            <button
+              type="button"
+              className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 max-w-8 ml-auto"
+              id="user-menu-button"
+              aria-expanded={userMenuOpen}
+              data-dropdown-toggle="user-dropdown"
+              data-dropdown-placement="bottom"
+              onClick={() => setUserMenuOpen((prev) => !prev)}
+            >
+              <span className="sr-only">Open user menu</span>
+              <Image
+                width={8}
+                height={8}
+                className="w-8 h-8 rounded-full"
+                src="/images/default_avatar.png"
+                alt="user photo"
+              />
+            </button>
+            {/* <!-- Dropdown menu --> */}
+            <div
+              className={`z-50 ${
+                userMenuOpen ? '' : 'hidden'
+              } text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute right-4 top-14`}
+              id="user-dropdown"
+            >
+              <div className="px-4 py-3">
+                <span className="block text-sm text-gray-900 dark:text-white">
+                  {session?.user?.firstName} {session?.user?.lastName}
+                </span>
+                <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
+                  {session?.user?.email}
+                </span>
+              </div>
+              <ul className="py-2" aria-labelledby="user-menu-button">
+                {/* <li>
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
@@ -57,25 +58,26 @@ export const NewTopNav = () => {
                   Dashboard
                 </a>
               </li> */}
-              <li>
-                <a
-                  href="/settings"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/logout"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Sign out
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* <button
+                <li>
+                  <a
+                    href="/settings"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  >
+                    Settings
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/logout"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  >
+                    Sign out
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* <button
             data-collapse-toggle="navbar-user"
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -99,7 +101,26 @@ export const NewTopNav = () => {
               />
             </svg>
           </button> */}
-        </div>
+          </div>
+        ) : (
+          <div className="ml-auto gap-3 items-center justify-between hidden w-full md:flex md:w-auto md:order-1">
+            {' '}
+            <a
+              href="/signup"
+              className="py-2 px-3 rounded text-blue-700 dark:text-blue-500"
+              aria-current="page"
+            >
+              Sign Up
+            </a>
+            <a
+              href="/login"
+              className="py-2 px-3 rounded text-blue-700 dark:text-blue-500"
+              aria-current="page"
+            >
+              Login
+            </a>
+          </div>
+        )}
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-user"
