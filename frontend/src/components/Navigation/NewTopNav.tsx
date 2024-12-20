@@ -1,10 +1,12 @@
 'use client';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const NewTopNav = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 overflow-x-hidden max-h-15">
@@ -67,12 +69,16 @@ export const NewTopNav = () => {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/logout"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  <span
+                    onClick={async (event) => {
+                      await signOut();
+                      router.push('/login');
+                      // It keeps redirecting back to home page, might be that the session isn't invalidated yet?
+                    }}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:cursor-pointer"
                   >
                     Sign out
-                  </a>
+                  </span>
                 </li>
               </ul>
             </div>
