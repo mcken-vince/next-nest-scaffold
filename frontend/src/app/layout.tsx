@@ -1,5 +1,5 @@
 import './global.css';
-import { TopNav } from '@components';
+import { NewTopNav as TopNav } from '@components';
 import Providers from '@providers/Providers';
 
 export const metadata = {
