@@ -34,9 +34,13 @@ export const apiFetch = async (endpoint: string, options?: ApiFetchOptions) => {
     );
     const response = await res.json();
     console.log({ response });
+    if (response.error) {
+      throw new Error(response.message);
+    }
     return response;
   } catch (error) {
-    console.log({ error });
+    console.log('ApiClientError', error);
+    throw error;
   }
 };
 
