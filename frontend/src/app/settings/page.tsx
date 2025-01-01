@@ -7,10 +7,13 @@ import { useSession } from 'next-auth/react';
 
 export default function SettingsPage() {
   const { data: session } = useSession();
+  console.log('Session:', session);
   const { data, error, isLoading } = useQuery({
     queryKey: ['settings'],
     queryFn: async () => {
-      return apiFetch(`/user-settings/${session?.user?.id}`);
+      return apiFetch(`/user-settings/${session?.user?.id}`, {
+        token: session?.auth_token,
+      });
     },
   });
 
