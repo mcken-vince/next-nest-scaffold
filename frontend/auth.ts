@@ -59,11 +59,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         return true;
       } else {
-        // Return false to display a default error message
         return '/login?error=loginError';
-        return false;
-        // Or you can return a URL to redirect to:
-        // return '/unauthorized'
       }
     },
     async jwt({ token, user, account, profile, session }) {
