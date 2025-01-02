@@ -1,9 +1,9 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -14,7 +14,8 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
       const request = context.switchToHttp().getRequest();
-      const { authorization }: any = request.headers;
+      delete request.user; // In case a user is already set
+      const authorization: string | undefined = request.headers.authorization;
       if (!authorization || authorization.trim() === '') {
         throw new UnauthorizedException('Please provide token');
       }
@@ -26,7 +27,7 @@ export class AuthGuard implements CanActivate {
       request.user = resp.user;
       return true;
     } catch (error) {
-      console.log('auth error - ', error.message);
+      console.log('Error in AuthGuard: ', error.message);
       throw new ForbiddenException(
         error.message || 'Session expired! Please Sign In'
       );
