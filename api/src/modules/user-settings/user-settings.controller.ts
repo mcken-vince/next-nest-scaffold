@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { UserSettingsService } from './user-settings.service';
 import { BaseController } from '@base/base.controller';
 import { UserSettingsEntity } from '@entities';
 import { UserSettingsDto } from '@dto';
+import { AuthGuard } from '@guards/auth.guard';
+import { User } from '@decorators/user.decorator';
 
+@UseGuards(AuthGuard)
 @Controller('user-settings')
 export class UserSettingsController extends BaseController<UserSettingsEntity> {
   constructor(private readonly _service: UserSettingsService) {
@@ -21,7 +24,11 @@ export class UserSettingsController extends BaseController<UserSettingsEntity> {
   // }
 
   @Get(':id')
-  async findByUserId(@Param('id') id: number): Promise<UserSettingsEntity> {
+  async findByUserId(
+    @Param('id') id: number,
+    @User() user: any
+  ): Promise<UserSettingsEntity> {
+    console.log('User: ', user);
     return this._service.findByUserId(id);
   }
 
