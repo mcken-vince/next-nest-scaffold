@@ -7,6 +7,8 @@ export type ButtonProps = {
   type?: 'button' | 'reset' | 'submit';
   color?: 'primary' | 'secondary' | 'danger';
   disabled?: boolean;
+  loading?: boolean;
+  loadingText?: string;
 };
 
 export function Button({
@@ -16,6 +18,8 @@ export function Button({
   type = 'button',
   color = 'primary',
   disabled = false,
+  loading = false,
+  loadingText = 'Loading...',
 }: ButtonProps) {
   const buttonClasses = useMemo(() => {
     let btnClasses =
@@ -55,10 +59,10 @@ export function Button({
     <button
       type={type}
       className={buttonClasses}
-      onClick={onClick}
+      onClick={loading ? undefined : onClick}
       disabled={disabled}
     >
-      {children}
+      {loading ? loadingText : children}
     </button>
   );
 }
