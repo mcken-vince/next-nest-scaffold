@@ -40,7 +40,6 @@ export const apiFetch = async (endpoint: string, options?: ApiFetchOptions) => {
     return response;
   } catch (error) {
     console.log('ApiClientError', error);
-    throw error;
   }
 };
 
