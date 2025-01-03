@@ -7,8 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { signIn } from 'next-auth/react';
 import { Button } from '../Buttons/Button';
+import { useState } from 'react';
 
 export const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+
   const schema = yup
     .object()
     .shape({
@@ -33,8 +36,13 @@ export const LoginForm = () => {
   });
 
   const onSubmitHandler = async (data: any) => {
-    const response = await signIn('credentials', data);
-    console.log({ response });
+    setLoading(true);
+    try {
+      await signIn('credentials', data);
+    } catch (error) {
+      console.log('LoginError', error);
+      setLoading(false);
+    }
   };
 
   const headerText = 'Welcome to App';
@@ -145,7 +153,13 @@ export const LoginForm = () => {
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <Button type="submit">Sign In</Button>
+                <Button
+                  type="submit"
+                  loading={loading}
+                  loadingText="Signing in..."
+                >
+                  Sign In
+                </Button>
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Don&apos;t have an account?{' '}
