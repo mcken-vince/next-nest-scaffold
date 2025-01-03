@@ -8,8 +8,12 @@ import * as yup from 'yup';
 import { signIn } from 'next-auth/react';
 import { Button } from '../Buttons/Button';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Alert, AlertDescription, AlertTitle } from '@components/Alerts/Alert';
 
 export const LoginForm = () => {
+  const query = useSearchParams();
+  const error = query.get('error');
   const [loading, setLoading] = useState(false);
 
   const schema = yup
@@ -169,6 +173,17 @@ export const LoginForm = () => {
                   .
                 </p>
               </div>
+              {!!error && (
+                <div className="col-span-6">
+                  <Alert variant="destructive">
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                      We encountered an error trying to log you in. Please try
+                      again.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
             </form>
           </div>
         </main>
